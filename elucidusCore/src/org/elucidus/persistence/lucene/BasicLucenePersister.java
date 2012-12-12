@@ -6,7 +6,7 @@ import org.elucidus.currency.Item;
 import org.elucidus.exceptions.PersistenceException;
 import org.elucidus.persistence.IPersister;
 
-public class Persister implements IPersister
+public class BasicLucenePersister implements IPersister
 {
 
   @Override
