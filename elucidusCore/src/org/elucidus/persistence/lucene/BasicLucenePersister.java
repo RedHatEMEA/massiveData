@@ -8,19 +8,18 @@ import org.elucidus.persistence.IPersister;
 
 public class BasicLucenePersister implements IPersister
 {
+  private String _luceneIndexDirectory = null;
 
   @Override
   public void setLocation(String location)
   {
-    // TODO Auto-generated method stub
-    
+    _luceneIndexDirectory = location;
   }
 
   @Override
   public void setParameter(String name, String value)
   {
-    // TODO Auto-generated method stub
-    
+
   }
 
   @Override
@@ -31,10 +30,10 @@ public class BasicLucenePersister implements IPersister
   }
 
   @Override
-  public boolean persistItem(Item item, boolean overwrite)
-      throws PersistenceException
+  public boolean persistItem(Item item, boolean overwrite) throws PersistenceException
   {
-    // TODO Auto-generated method stub
+    
+
     return false;
   }
 

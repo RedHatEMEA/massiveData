@@ -2,7 +2,7 @@ package org.elucidus.exceptions;
 
 /**
  * This class provides an exception for when a data format conversion failure occurs.
- * @author Ian Lawson (Logica Uk) <a href="mailto:ian.lawson@logica.com">ian.lawson@logica.com</a>
+ * @author Ian Lawson (<a href="mailto:ian.lawson@redhat.com">ian.lawson@redhat.com</a>).
  */
 public class PersistenceException extends Exception
 {

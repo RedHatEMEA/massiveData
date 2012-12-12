@@ -7,7 +7,7 @@ import org.elucidus.exceptions.PersistenceException;
 
 /**
  * Persister Interface for defining functionality across all persisters.
- * @author Ian Lawson (<@link "mailto:ian.lawson@redhat.com">ian.lawson@redhat.com</link>.
+ * @author Ian Lawson (<a href="mailto:ian.lawson@redhat.com">ian.lawson@redhat.com</a>).
  *
  */
 public interface IPersister

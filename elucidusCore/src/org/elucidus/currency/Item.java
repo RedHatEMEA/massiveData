@@ -8,6 +8,10 @@ import java.util.List;
 import org.elucidus.exceptions.ContentNotUniqueException;
 import org.elucidus.exceptions.InvalidObjectTypeException;
 
+/**
+ * This class represents a single lowest common denominator Item for an Elucidus system.
+ * @author Ian Lawson (<a href="mailto:ian.lawson@redhat.com">ian.lawson@redhat.com</a>).
+ */
 public class Item implements Serializable
 {
   // Required static for Serializable interface
@@ -16,7 +20,7 @@ public class Item implements Serializable
   // Class Properties
   private Hashtable<String,Object> _contents = null;
   private List<String> _comparitors = null;
-  long _creationUTC = 0;
+  private long _creationUTC = 0;
   
   /**
    * Parameterless constructor, empty item
