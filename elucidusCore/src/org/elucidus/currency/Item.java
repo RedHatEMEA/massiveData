@@ -28,6 +28,8 @@ public class Item implements Serializable
   public Item()
   {
     _creationUTC = System.currentTimeMillis();
+    
+    _contents = new Hashtable<String,Object>();
   }
   
   /**
