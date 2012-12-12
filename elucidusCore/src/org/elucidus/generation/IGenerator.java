@@ -2,6 +2,7 @@ package org.elucidus.generation;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 import org.elucidus.currency.Item;
@@ -18,4 +19,5 @@ public interface IGenerator
   public List<Item> generate( InputStream inputStream ) throws GenerationException;
   public List<Item> generate( File inputFile ) throws GenerationException;
   public List<Item> generate( String inputString ) throws GenerationException;
+  public List<Item> generate( URL url ) throws GenerationException;
 }
