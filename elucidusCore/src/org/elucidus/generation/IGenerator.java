@@ -1,0 +1,21 @@
+package org.elucidus.generation;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.List;
+
+import org.elucidus.currency.Item;
+import org.elucidus.exceptions.GenerationException;
+
+/**
+ * This is the interface for the Elucidus generators. Generators work by taking raw data streams
+ * and generating correctly formatted Items.
+ * @author Ian Lawson <a href="mailto:ian.lawson@redhat.com">ian.lawson@redhat.com</a>
+ *
+ */
+public interface IGenerator
+{
+  public List<Item> generate( InputStream inputStream ) throws GenerationException;
+  public List<Item> generate( File inputFile ) throws GenerationException;
+  public List<Item> generate( String inputString ) throws GenerationException;
+}
