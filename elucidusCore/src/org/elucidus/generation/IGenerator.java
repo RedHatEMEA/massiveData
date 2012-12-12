@@ -20,4 +20,5 @@ public interface IGenerator
   public List<Item> generate( File inputFile ) throws GenerationException;
   public List<Item> generate( String inputString ) throws GenerationException;
   public List<Item> generate( URL url ) throws GenerationException;
+  public void setParameter( String name, String value ) throws GenerationException;
 }
