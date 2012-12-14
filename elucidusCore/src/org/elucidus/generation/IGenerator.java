@@ -12,7 +12,6 @@ import org.elucidus.exceptions.GenerationException;
  * This is the interface for the Elucidus generators. Generators work by taking raw data streams
  * and generating correctly formatted Items.
  * @author Ian Lawson <a href="mailto:ian.lawson@redhat.com">ian.lawson@redhat.com</a>
- *
  */
 public interface IGenerator
 {

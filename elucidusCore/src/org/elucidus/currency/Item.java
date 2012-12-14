@@ -139,7 +139,7 @@ public class Item implements Serializable
    */
   public List<String> getContents( boolean dedupe )
   {
-    ArrayList workingList = new ArrayList<String>();
+    ArrayList<String> workingList = new ArrayList<String>();
     
     for( String key : _contents.keySet() )
     {

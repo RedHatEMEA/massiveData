@@ -16,15 +16,15 @@ public class GeneratorFactory
 
   @SuppressWarnings("unchecked")
   /**
-   * Static factory for generating Persisters.
-   * @param className class name of Persister to create (must conform to {@link org.elucidus.persistence.IPersister IPersister} interface. 
-   * @return an instantiated object for the Persister
-   * @throws ClassCastException if the target class cannot be cast to IPersister
+   * Static factory for generating Generators.
+   * @param className class name of Generator to create (must conform to {@link org.elucidus.generation.IGenerator IGenerator} interface. 
+   * @return an instantiated object for the Generator
+   * @throws ClassCastException if the target class cannot be cast to IGenerator
    * @throws ClassNotFoundException if the target class is not in the ClassLoader classpath
    * @throws InstantiationException if the instantiation fails
    * @throws IllegalAccessException if the class is unreachable within the ClassLoader
    */
-  public static  <T extends IGenerator> T getPersister( String className ) throws ClassCastException,ClassNotFoundException, InstantiationException, IllegalAccessException
+  public static  <T extends IGenerator> T getGenerator( String className ) throws ClassCastException,ClassNotFoundException, InstantiationException, IllegalAccessException
   {
     return (T)Class.forName(className).newInstance();
   }
