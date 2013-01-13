@@ -3,7 +3,7 @@ package org.elucidus.tests;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Fieldable;
+import org.apache.lucene.document.Fieldable; 
 import org.elucidus.currency.Item;
 import org.elucidus.persistence.lucene.ItemConverter;
 
