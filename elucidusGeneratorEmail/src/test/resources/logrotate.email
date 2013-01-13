@@ -1,0 +1,19 @@
+From root@testMachine.example.com  Sat Dec 15 03:12:02 2012
+Return-Path: <root@testMachine.example.com>
+Received: from testMachine.example.com (localhost [127.0.0.1])
+        by testMachine.example.com (8.14.5/8.14.5) with ESMTP id qBF3C2Hg011019
+        for <root@testMachine.example.com>; Sat, 15 Dec 2012 03:12:02 GMT
+Received: (from root@localhost)
+        by testMachine.example.com (8.14.5/8.14.5/Submit) id qBF3C2OL011018
+        for root; Sat, 15 Dec 2012 03:12:02 GMT
+Date: Sat, 15 Dec 2012 03:12:02 GMT
+Message-Id: <201212150312.qBF3C2OL011018@testMachine.example.com>
+From: Anacron <root@testMachine.example.com>
+To: root@testMachine.example.com
+Content-Type: text/plain; charset="ANSI_X3.4-1968"
+Subject: Anacron job 'cron.daily' on testMachine.example.com
+
+/etc/cron.daily/logrotate:
+ 
+error: skipping "/var/log/tomcat6/catalina.out" because parent directory has insecure permissions (It's world writable or writable by group which is not "root") Set "su" directive in config file to tell logrotate which user/group should be used for rotation.
+
