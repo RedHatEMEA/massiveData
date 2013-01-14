@@ -2,7 +2,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>elucidusGeneratorEmail</groupId>
   <artifactId>elucidusGeneratorEmail</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <dependencies>
   	<dependency>
   		<groupId>junit</groupId>
@@ -23,7 +22,7 @@
   	<dependency>
   		<groupId>elucidusBaseGenerator</groupId>
   		<artifactId>elucidusBaseGenerator</artifactId>
-  		<version>0.0.2-SNAPSHOT</version>
+  		<version>0.0.3-SNAPSHOT</version>
   	</dependency>
   </dependencies>  
   
@@ -41,4 +40,9 @@
     </plugins>
   </build>
   
+  <parent>
+  	<groupId>elucidus</groupId>
+  	<artifactId>elucidus</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  </parent>
 </project>

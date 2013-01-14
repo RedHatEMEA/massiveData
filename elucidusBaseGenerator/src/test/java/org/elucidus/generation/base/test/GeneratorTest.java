@@ -17,7 +17,7 @@ public abstract class GeneratorTest {
 			
 			for (String key : new TreeSet<String>(attributes.keySet())) {
 				String value = attributes.get(key).toString();
- 
+  
 				if (value.length() > maxValueLength) {
 					value = value.substring(0, maxValueLength);
 					value = value.replace("\n", "");

@@ -2,7 +2,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>elucidusGeneratorPdf</groupId>
   <artifactId>elucidusGeneratorPdf</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <dependencies>
   	<dependency>
   		<groupId>org.apache.pdfbox</groupId>
@@ -28,7 +27,7 @@
   	<dependency>
   		<groupId>elucidusBaseGenerator</groupId>
   		<artifactId>elucidusBaseGenerator</artifactId>
-  		<version>0.0.2-SNAPSHOT</version>
+  		<version>0.0.3-SNAPSHOT</version>
   	</dependency>
   </dependencies>   
   
@@ -46,4 +45,9 @@
     </plugins>
   </build>
   
+  <parent>
+  	<groupId>elucidus</groupId>
+  	<artifactId>elucidus</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  </parent>
 </project>

@@ -9,6 +9,7 @@
     <module>elucidusCore</module>
     <module>elucidusGeneratorEmail</module>
     <module>elucidusGeneratorPdf</module>
+    <module>elucidusBaseGenerator</module>
   </modules>
   
   
