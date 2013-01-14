@@ -1,13 +1,11 @@
 package org.elucidus.generation.pdf;
 
-<<<<<<< HEAD
-import java.io.File;
+import java.io.File;  
 import java.io.FileInputStream;
 import java.io.FileNotFoundException; 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-=======
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,7 +17,6 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
->>>>>>> 3087b9ad4007e80104a6be1d41b86318bf02f052
 import java.util.Vector;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -27,19 +24,11 @@ import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.util.PDFTextStripper;
 import org.elucidus.currency.Item;
 import org.elucidus.exceptions.GenerationException;
-<<<<<<< HEAD
 import org.elucidus.generation.base.BaseGenerator;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 public class GeneratorPdf extends BaseGenerator {
-=======
-import org.elucidus.generation.IGenerator;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
-public class GeneratorPdf implements IGenerator {
->>>>>>> 3087b9ad4007e80104a6be1d41b86318bf02f052
 	private final Vector<Item> pdfAttributes = new Vector<Item>(); 
 	private File fileToFilter;
 
@@ -100,27 +89,12 @@ public class GeneratorPdf implements IGenerator {
 		this.pdfDoc = PDDocument.load(is);
 	} 
 
-<<<<<<< HEAD
-=======
-	private String sanitizeValue(String value) {
-		if (value == null) {
-			return "";
-		} else {
-			return value.trim(); 
-		}
-	}
-
->>>>>>> 3087b9ad4007e80104a6be1d41b86318bf02f052
 	private void unloadPdf() {
 		try {
 			this.pdfDoc.close();
 		} catch (IOException e) {
-			System.out.println("Could not cleanly close the PDF");
-<<<<<<< HEAD
+			e.printStackTrace(); 
 		} 
-=======
-		}
->>>>>>> 3087b9ad4007e80104a6be1d41b86318bf02f052
 	}
 
 	@Override
@@ -151,31 +125,4 @@ public class GeneratorPdf implements IGenerator {
 			throw new GenerationException(e); 
 		}  
 	}
-<<<<<<< HEAD
-=======
-
-	@Override
-	public List<Item> generate(String inputString) throws GenerationException {
-		return generate(new ByteArrayInputStream(inputString.getBytes(Charset.defaultCharset())));
-	}    
-
-	@Override
-	public List<Item> generate(URL url) throws GenerationException {
-		/* 
-		 * This is bad interface method imo, but hey ho. Without any understanding
-		 * of the URL protocol, exceptions cannot be caught and handled in a sensible way.  
-		 */
-		try {
-			return generate(url.openStream()) ;
-		} catch (IOException e) {
-			throw new GenerationException(e);
-		}
-	} 
-  
-	@Override
-	public void setParameter(String name, String value) throws GenerationException 
-	{
-	}
-
->>>>>>> 3087b9ad4007e80104a6be1d41b86318bf02f052
 }

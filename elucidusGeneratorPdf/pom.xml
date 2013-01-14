@@ -25,7 +25,12 @@
   		<artifactId>elucidusCore</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
-  </dependencies>  
+  	<dependency>
+  		<groupId>elucidusBaseGenerator</groupId>
+  		<artifactId>elucidusBaseGenerator</artifactId>
+  		<version>0.0.2-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>   
   
   <build>
     <plugins>
