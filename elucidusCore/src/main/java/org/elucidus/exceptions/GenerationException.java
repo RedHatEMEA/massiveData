@@ -26,6 +26,10 @@ public class GenerationException extends Exception
   public GenerationException( String message )
   {
     super( message );
+  } 
+  
+  public GenerationException(Exception cause) {
+	  super(cause); 
   }
 
 }

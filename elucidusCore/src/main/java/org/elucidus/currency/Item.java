@@ -2,8 +2,11 @@ package org.elucidus.currency;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 import org.elucidus.exceptions.ContentNotUniqueException;
 import org.elucidus.exceptions.InvalidObjectTypeException;
@@ -18,8 +21,8 @@ public class Item implements Serializable
   private static final long serialVersionUID = 1L;
 
   // Class Properties
-  private Hashtable<String,Object> _contents = null;
-  private List<String> _comparitors = null;
+  private final Hashtable<String,Object> _contents = new Hashtable<>();
+  private final List<String> _comparitors = new Vector<String>(); 
   private long _creationUTC = 0;
   
   /**
@@ -28,10 +31,8 @@ public class Item implements Serializable
   public Item()
   {
     _creationUTC = System.currentTimeMillis();
-    
-    _contents = new Hashtable<String,Object>();
   }
-  
+    
   /**
    * Deep copy constructor with provided contents
    * @param contents existing contents for creation of a new item
@@ -39,21 +40,7 @@ public class Item implements Serializable
    */
   public Item( Hashtable<String,Object> contents, List<String> comparitors )
   {
-    _contents = new Hashtable<String,Object>();
-    
-    for( String key : contents.keySet())
-    {
-      _contents.put( key, contents.get(key));
-    }
-    
-    _comparitors = new ArrayList<String>();
-    
-    for( String comparitor : comparitors )
-    {
-      _comparitors.add(comparitor);
-    }
-    
-    _creationUTC = System.currentTimeMillis(); 
+	this(contents, comparitors, System.currentTimeMillis());
   }
   
   /**
@@ -64,21 +51,9 @@ public class Item implements Serializable
    */
   public Item( Hashtable<String,Object> contents, List<String> comparitors, long originalCreationUTC )
   {
-    _contents = new Hashtable<String,Object>();
-    
-    for( String key : contents.keySet())
-    {
-      _contents.put( key, contents.get(key));
-    }
-    
-    _comparitors = new ArrayList<String>();
-    
-    for( String comparitor : comparitors )
-    {
-      _comparitors.add(comparitor);
-    }
-    
-    _creationUTC = originalCreationUTC;     
+    this._contents.putAll(contents);
+    this._comparitors.addAll(comparitors);
+    this._creationUTC = originalCreationUTC;
   }
   
   /**
@@ -87,21 +62,7 @@ public class Item implements Serializable
    */
   public Item( Item original )
   {
-    _contents = new Hashtable<String,Object>();
-    
-    for( String key : original.getContents().keySet() )
-    {
-      _contents.put(key, original.getContents().get(key));
-    }
-    
-    _comparitors = new ArrayList<String>();
-    
-    for( String comparitor : original.getComparitors())
-    {
-      _comparitors.add(comparitor);
-    }
-    
-    _creationUTC = original.getCreationUTC();
+	  this(original.getContents(), original.getComparitors(), original.getCreationUTC());
   }
   
   /**
@@ -144,8 +105,8 @@ public class Item implements Serializable
     for( String key : _contents.keySet() )
     {
       Object value = _contents.get(key);
-      
-      if( value.getClass().getCanonicalName().equals( "java.lang.String"))
+       
+      if( value.getClass() == String.class)
       {
         String content = (String)value;
         
@@ -182,6 +143,17 @@ public class Item implements Serializable
     _contents.put(name, value);
   }
   
+  public void addString(String identifier, String value) {
+	_contents.put(identifier, value);
+  } 
+  
+  /*
+   *  FIXME Hashmaps don't allow duplicates (called "aggregation in this method")!
+   *  
+   *  What is it that is trying to be acheived by "aggregation" here?
+   *  
+   *  Also, throwing 3 exceptions from a method that is used so frequently is a massive PITA and clutter. 
+   */
   public void addString( String name, String value, boolean aggregate ) throws ContentNotUniqueException, InvalidObjectTypeException
   {
     if( _contents.containsKey(name) && !aggregate )
@@ -192,10 +164,10 @@ public class Item implements Serializable
     {
       Object currentObject = _contents.get(name);
       
-      if( !currentObject.getClass().getCanonicalName().equals( "java.lang.String"))
+      if( currentObject.getClass() != String.class)
       {
         throw new InvalidObjectTypeException( "Expected String, found " + currentObject.getClass().getCanonicalName() + " for field " + name );
-      }
+      } 
             
       String valueToAdd = (String)_contents.get(name);
       
