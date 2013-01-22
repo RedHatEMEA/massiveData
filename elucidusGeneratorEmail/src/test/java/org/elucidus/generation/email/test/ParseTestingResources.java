@@ -6,14 +6,14 @@ import java.util.List;
 
 import org.elucidus.currency.Item;
 import org.elucidus.exceptions.GenerationException;
-import org.elucidus.generation.base.test.GeneratorTest;
+import org.elucidus.generation.base.testHelpers.GeneratorTest;
 import org.elucidus.generation.email.GeneratorEmail;
 import org.junit.Assert;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory; 
 import org.junit.runner.RunWith;
-
+ 
 @RunWith(Theories.class)   
 public class ParseTestingResources extends GeneratorTest {
 	@DataPoints
@@ -24,7 +24,7 @@ public class ParseTestingResources extends GeneratorTest {
 			public boolean accept(File arg0, String arg1) {
 				return arg1.endsWith(".email"); 
 			}   
-		});
+		}); 
 	}       
 	  
 	
