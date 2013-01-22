@@ -56,6 +56,21 @@ public class BasicFilePersister implements IPersister
   }
 
   /**
+   * Helper method for returning the target file name fully qualified
+   * @return the fully qualified name
+   * @throws PersistenceException if any of the required parameters have not been set
+   */
+  private String getTargetLocation() throws PersistenceException
+  {
+    if( _uuid == null && _targetDirectory == null )
+    {
+      throw new PersistenceException( "Persister not initialised (missing parameters).");
+    }
+    
+    return _targetDirectory + File.pathSeparator + _uuid + ".elu";
+  }
+  
+  /**
    * Implementation of the remove item method. In the case of the Basic File Persister this
    * deletes the physical file.
    * @param item item to remove. This is associated to the uuid which is set separately.
@@ -65,9 +80,10 @@ public class BasicFilePersister implements IPersister
   @Override
   public boolean removeItem(Item item) throws PersistenceException
   {
-    String targetLocation = _targetDirectory + File.pathSeparator + _uuid + ".elu";
+    String targetLocation = getTargetLocation();
     
     File targetFile = new File( targetLocation );
+
     
 
     return targetFile.delete();

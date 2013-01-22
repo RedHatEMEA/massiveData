@@ -32,6 +32,15 @@ public class Item implements Serializable
   {
     _creationUTC = System.currentTimeMillis();
   }
+  
+  /**
+   * Basic constructor for retaining previous creation UTC (for fully qualifying vanilla Items).
+   * @param creationUTC pre-created creation time
+   */
+  public Item( long creationUTC )
+  {
+    _creationUTC = creationUTC;
+  }
     
   /**
    * Deep copy constructor with provided contents
