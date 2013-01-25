@@ -152,16 +152,18 @@ public class Item implements Serializable
     _contents.put(name, value);
   }
   
-  public void addString(String identifier, String value) {
+  public void addString(String identifier, String value) 
+  {
 	_contents.put(identifier, value);
   } 
   
-  /*
-   *  FIXME Hashmaps don't allow duplicates (called "aggregation in this method")!
-   *  
-   *  What is it that is trying to be acheived by "aggregation" here?
-   *  
-   *  Also, throwing 3 exceptions from a method that is used so frequently is a massive PITA and clutter. 
+  /**
+   * Add String method for aspect aggregation - this allows multiple values (String) to be stored against the same single name aspect.
+   * @param name name to store
+   * @param value value to store (or aggregate if it already exists *and* the boolean aggregate is set to true
+   * @param aggregate whether to aggregate or not. If set to not then a duplicate field exception is thrown
+   * @throws ContentNotUniqueException name already exists in Item *and* Aggregate is set to false
+   * @throws InvalidObjectTypeException if the name already exists *and* aggregate is set to true but the existing object is not a string
    */
   public void addString( String name, String value, boolean aggregate ) throws ContentNotUniqueException, InvalidObjectTypeException
   {
