@@ -154,6 +154,9 @@ public class BasicFilePersister implements IPersister
     {
       PrintWriter out = new PrintWriter( new FileOutputStream( filename ) );
       System.out.println( "Working with file: " + filename );
+      
+      // Manually map the created date as a separate field
+      out.print( "CREATED:::" + Long.toString( item.getCreationUTC()) +"\n\r" );
     
       // Now split the aspects and discard the non-java.util.String ones (for now, **BAD UTH**)
       Map<String,Object> contents = item.getContents();
