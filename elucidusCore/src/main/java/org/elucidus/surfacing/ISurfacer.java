@@ -10,7 +10,7 @@ public interface ISurfacer
 {
   public void setLocation( String location );
   public void setParameter( String name, String value );
-  public List<Item> surface( String name, String value ) throws SurfacingException;
+  public List<Item> surface( String name, String value, boolean exactMatch ) throws SurfacingException;
   public List<Item> surface( Map<String,String> tokens ) throws SurfacingException;
-  public boolean match( Item item ) throws SurfacingException;  
+  public boolean match( Item item, String cacheName ) throws SurfacingException;  
 }
