@@ -152,6 +152,11 @@ public class Item implements Serializable
     _contents.put(name, value);
   }
   
+  /**
+   * Simple add string method for adding an Aspect to the item.
+   * @param identifier name to store the aspect under
+   * @param value value to store for the aspect
+   */
   public void addString(String identifier, String value) 
   {
 	_contents.put(identifier, value);

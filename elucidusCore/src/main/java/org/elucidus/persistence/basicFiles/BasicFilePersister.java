@@ -1,10 +1,14 @@
 package org.elucidus.persistence.basicFiles;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.elucidus.currency.Item;
+import org.elucidus.currency.utils.ItemNameTools;
 import org.elucidus.exceptions.PersistenceException;
 import org.elucidus.persistence.IPersister;
 
@@ -67,7 +71,27 @@ public class BasicFilePersister implements IPersister
       throw new PersistenceException( "Persister not initialised (missing parameters).");
     }
     
-    return _targetDirectory + File.pathSeparator + _uuid + ".elu";
+    return _targetDirectory + File.separator + _uuid + ".elu";
+  }
+  
+  /**
+   * Helper method for determining if an item has already been persisted.
+   * @param item item to check for persistence
+   * @return true if a file exists for the item in the target location
+   * @throws PersistenceException if initialisation parameters have not been set
+   */
+  private boolean itemExists( Item item ) throws PersistenceException
+  {
+    if( _uuid == null && _targetDirectory == null )
+    {
+      throw new PersistenceException( "Persister not initialised (missing parameters).");
+    }
+    
+    String location = this.getTargetLocation();
+    
+    File testFile = new File( location );
+    
+    return testFile.exists();
   }
   
   /**
@@ -84,8 +108,6 @@ public class BasicFilePersister implements IPersister
     
     File targetFile = new File( targetLocation );
 
-    
-
     return targetFile.delete();
   }
 
@@ -93,26 +115,120 @@ public class BasicFilePersister implements IPersister
    * 
    */
   @Override
-  public boolean persistItem(Item item, boolean overwrite)
-      throws PersistenceException
+  public boolean persistItem(Item item, boolean overwrite) throws PersistenceException
   {
-    // TODO Auto-generated method stub
+    // Caveat - this method uses the *provided* uuid as an indicator of file location. This
+    // abstracts the item contents from the target storage indicator which could be an overhead, 
+    // but it allows the system to persist vanilla items (non-qualified items) as well as fully qualified.
+    //
+    // Also for sake of simplicity the persister just uses String objects from the aspects - the non-String
+    // objects are discarded **BAD UTH**
+    //
+    // For fully qualified items simply call the item name utils to get the uuid and use that as 
+    // the provided parameter to the object.
+    
+    // First check parameters have been setup correctly
+    if( _uuid == null && _targetDirectory == null )
+    {
+      throw new PersistenceException( "Persister not initialised (missing parameters).");
+    }
+    
+    // Prepare the target file
+    String filename = this.getTargetLocation();
+    
+    // If overwrite then remove the file if it exists
+    if( overwrite )
+    {
+      boolean success = this.removeItem(item);
+    }
+    else
+    {
+      if( this.itemExists(item))
+      {
+        throw new PersistenceException( "Overwrite disabled and item is already persisted.");
+      }
+    }
+    
+    // Debatable behaviour model - open file now, write aspects as extracted
+    try
+    {
+      PrintWriter out = new PrintWriter( new FileOutputStream( filename ) );
+      System.out.println( "Working with file: " + filename );
+    
+      // Now split the aspects and discard the non-java.util.String ones (for now, **BAD UTH**)
+      Map<String,Object> contents = item.getContents();
+    
+      for( String key : contents.keySet() )
+      {
+        Object value = contents.get( key );
+      
+        if( value.getClass().getCanonicalName().equals( "java.lang.String"))
+        {
+          String payload = (String)value;
+        
+          // Convert the data to store-able
+          String output = key + ":::" + payload + "\n\r";
+          out.print( output );      
+        }
+      }
+    
+      out.close();
+    }
+    catch( Exception exc )
+    {
+      throw new PersistenceException( "File output failure due to " + exc.toString() );
+    }
+        
     return false;
   }
 
   @Override
-  public List<Item> persistItems(List<Item> items, boolean overwrite)
-      throws PersistenceException
+  /**
+   * Currently just throws an exception - the nature of the basic file persistence means that
+   * the uuid is presented separately to the item, and in this case multiple items cannot be
+   * persisted to a single uuid.
+   */
+  public List<Item> persistItems(List<Item> items, boolean overwrite) throws PersistenceException
   {
-    // TODO Auto-generated method stub
-    return null;
+    throw new PersistenceException( "Non-supported method for basic file persistence" );
   }
 
   @Override
+  /**
+   * Implementation of contains method for items for Basic File Persistence.
+   * 
+   * This works by building the target file name based on a field name from within
+   * the item and then checks if the file exists.
+   * @param item to perform check for
+   * @return true if the file exists (and hence the item is persisted)
+   * @throws PersistenceException if the contains check fails
+   */
   public boolean contains(Item item) throws PersistenceException
   {
-    // TODO Auto-generated method stub
-    return false;
+    try
+    {
+      Map<String,Object> contents = item.getContents();
+      
+      Set<String> keys = contents.keySet();
+      
+      if( keys.isEmpty())
+      {
+        throw new PersistenceException( "Provided item has no content");
+      }
+      
+      String[] keysArray = (String[])keys.toArray();
+      
+      _uuid = ItemNameTools.getUUID(keysArray[0]);
+      
+      String targetFileForCheck = this.getTargetLocation();
+      
+      File checkFile = new File( targetFileForCheck );
+      
+      return checkFile.exists();      
+    }
+    catch( Exception exc )
+    {
+      throw new PersistenceException( "Contains check failed due to " + exc.toString() );
+    }
   }
-
 }
