@@ -74,7 +74,7 @@ public class BasicFileSurfacer implements ISurfacer
       // Order - Creation UTC then all contents, all delimited by ":::"
       String data = fileRead.next();
       
-      return null
+      return null;
     }
     catch( Exception exc )
     {
