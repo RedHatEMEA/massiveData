@@ -2,12 +2,13 @@ package org.elucidus.surfacing.basicFiles;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.elucidus.currency.Item;
+import org.elucidus.currency.utils.ItemNameTools;
 import org.elucidus.exceptions.SurfacingException;
 import org.elucidus.surfacing.ISurfacer;
 
@@ -64,7 +65,7 @@ public class BasicFileSurfacer implements ISurfacer
    * @return the converted item
    * @throws SurfacingException if the conversion process fails
    */
-  private Item readFile( String target ) throws SurfacingException
+  private static Item readFile( String target ) throws SurfacingException
   {
     // Read and quickly convert the contents
     try
@@ -72,9 +73,38 @@ public class BasicFileSurfacer implements ISurfacer
       Scanner fileRead = new Scanner( new File( target ) );
       
       // Order - Creation UTC then all contents, all delimited by ":::"
-      String data = fileRead.next();
+      String data = fileRead.nextLine();
       
-      return null;
+      String[] components = BasicFileSurfacer.quickStrip(data);
+      
+      if( !components[0].equals( "CREATED"))
+      {
+        fileRead.close();
+        throw new SurfacingException( "Invalid file format, missing mandatory CREATED component - " + target );
+      }
+      
+      Item workingItem = new Item( Long.parseLong(components[1]));
+      
+      // Now process the contents
+      while( fileRead.hasNextLine())
+      {
+        data = fileRead.nextLine();
+        
+        if( data.indexOf( ":::") != -1 )
+        {
+          components = BasicFileSurfacer.quickStrip(data);
+        
+          workingItem.addString(components[0], components[1]);
+        }
+      }
+      
+      fileRead.close();
+      
+      return workingItem;
+    }
+    catch( SurfacingException sexc )
+    {
+      throw sexc;
     }
     catch( Exception exc )
     {
@@ -83,8 +113,39 @@ public class BasicFileSurfacer implements ISurfacer
   }
   
   /**
-   * Cache Data Dictionary 
-   * @throws SurfacingException
+   * Quick and dirty re-converter that expands the name:::value data to two components *but*
+   * also deals with empty components (that need to be retain for volumetric analysis.
+   * @param data data to process
+   * @return two component array of [0]=name [1]=value
+   * @throws SurfacingException if the data does not convert
+   */
+  private static String[] quickStrip( String data ) throws SurfacingException
+  {
+    String[] components = data.split( ":{3}");
+    
+    if( components.length == 1 )
+    {
+      // Fully populated empty items case
+      String emptyComponents[] = new String[2];
+      emptyComponents[0] = components[0];
+      emptyComponents[1] = new String( "" );
+      
+      return emptyComponents;
+    }
+    if( components.length != 2 )
+    {
+      throw new SurfacingException( "Incorrect number of components in provided data.");
+    }
+    else
+    {
+      return components;
+    }
+  }
+  
+  /**
+   * Internal Basic File based cache data dictionary method. This is to satisfy the interface requirements
+   * for being able to surface the data dictionary of the cache.
+   * @throws SurfacingException if data dictionary caching fails
    */
   private void cacheDataDictionary() throws SurfacingException
   {
@@ -92,6 +153,44 @@ public class BasicFileSurfacer implements ISurfacer
     {
       this.cacheFileList();      
     }
+    
+    _dataDictionary = new ArrayList<String>();
+    
+    // For each file read it, extract the field identifiers (last component of the name) and build a unique list
+    // of them for reference
+    int fileCount = 0;
+    
+    for( String target : _fileList )
+    {
+      // BAD UTH - for Debug
+      fileCount++;
+      System.out.print( ( fileCount % 1000 == 0 ? fileCount : ".") );
+      
+      try
+      {
+        Item item = BasicFileSurfacer.readFile(target);
+        
+        Map<String,Object> contents = item.getContents();
+        Set<String> aspects = contents.keySet();
+        
+        for( String aspect : aspects )
+        {
+          String fieldComponents = ItemNameTools.getFieldComponents(aspect);
+          
+          if( !( _dataDictionary.contains(fieldComponents)))
+          {
+            _dataDictionary.add(fieldComponents);
+          }
+        }
+      }
+      catch( Exception exc )
+      {
+        // BAD UTH - better logging needed here
+        System.out.println( "Failed to process file " + target + " due to " + exc.toString());
+      }
+    }
+    
+    System.out.println( "" );
   }
   
   @Override
@@ -140,7 +239,28 @@ public class BasicFileSurfacer implements ISurfacer
   @Override
   public List<String> surfaceDataDictionary() throws SurfacingException
   {
-    // TODO Auto-generated method stub
-    return null;
+    return _dataDictionary;
+  }
+  
+  /**
+   * Public test handle for testing the private methods used internally, will be removed.
+   * @param fileLocation qualified file name to test
+   * @return constructed item from the file contents
+   */
+  public static Item testFileRead( String fileLocation ) throws SurfacingException
+  {
+    return BasicFileSurfacer.readFile( fileLocation );
+  }
+
+  @Override
+  /**
+   * Optional method for surfacers that allow re-caching of the contents (i.e. ones that
+   * cache the data rather than reading data from an external source).
+   * 
+   * This should re-cache the contents if needed and the data dictionary if applicable.
+   */
+  public void synchroniseCache() throws SurfacingException
+  {
+    this.cacheDataDictionary();
   }
 }
