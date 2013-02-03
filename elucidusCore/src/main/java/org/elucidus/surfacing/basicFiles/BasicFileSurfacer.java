@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.elucidus.currency.Item;
 import org.elucidus.exceptions.SurfacingException;
@@ -67,8 +68,13 @@ public class BasicFileSurfacer implements ISurfacer
   {
     // Read and quickly convert the contents
     try
-    {
-      return null;
+    {   
+      Scanner fileRead = new Scanner( new File( target ) );
+      
+      // Order - Creation UTC then all contents, all delimited by ":::"
+      String data = fileRead.next();
+      
+      return null
     }
     catch( Exception exc )
     {
