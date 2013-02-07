@@ -126,10 +126,15 @@ public class BasicTitledCSVGenerator implements IGenerator
         
         Item item = new Item( contents, headingsList );
         
+        // Comparitor is maximal
+        item.setComparitors(headingsList);
+        
+        System.out.println( "Item Comparitor List: " + item.getComparitors());
+        
         workingItems.add(item);
       }
     }
-
+    
     return workingItems;
   }
 

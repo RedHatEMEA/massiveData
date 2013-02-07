@@ -156,7 +156,28 @@ public class BasicFilePersister implements IPersister
       System.out.println( "Working with file: " + filename );
       
       // Manually map the created date as a separate field
-      out.print( "CREATED:::" + Long.toString( item.getCreationUTC()) +"\n\r" );
+      out.print( "CREATED:::" + Long.toString( item.getCreationUTC()) +"\n" );
+      
+      // Manually store the comparitors for re-constituting the item
+      List<String> comparitors = item.getComparitors();
+      
+      System.out.println( "Comparitors: " + comparitors );
+      
+      StringBuffer compBuffer = null;
+      
+      for( String comparitor : comparitors )
+      {
+        if( compBuffer == null )
+        {
+          compBuffer = new StringBuffer( "COMPARITORS:::" + comparitor );
+        }
+        else
+        {
+          compBuffer.append( "," + comparitor );
+        }
+      }
+      
+      out.print( compBuffer.toString() + "\n");
     
       // Now split the aspects and discard the non-java.util.String ones (for now, **BAD UTH**)
       Map<String,Object> contents = item.getContents();
@@ -170,7 +191,7 @@ public class BasicFilePersister implements IPersister
           String payload = (String)value;
         
           // Convert the data to store-able
-          String output = key + ":::" + payload + "\n\r";
+          String output = key + ":::" + payload + "\n";
           out.print( output );      
         }
       }

@@ -2,6 +2,7 @@ package org.elucidus.surfacing.basicFiles;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -84,6 +85,16 @@ public class BasicFileSurfacer implements ISurfacer
       }
       
       Item workingItem = new Item( Long.parseLong(components[1]));
+      
+      // Order - read the comparitors and store them in the item shell
+      data = fileRead.nextLine();
+      
+      System.out.println( "[DEBUG] Read: " + data );
+      components = BasicFileSurfacer.quickStrip(data);
+      
+      String[] comparitors = components[1].split( "[,]");
+      
+      workingItem.setComparitors(Arrays.asList(comparitors));
       
       // Now process the contents
       while( fileRead.hasNextLine())

@@ -55,6 +55,10 @@ public class ItemConverter
     String convertedDate = Long.toString(System.currentTimeMillis());
     
     workingDocument.add( new Field( "converter.date", convertedDate, Field.Store.YES, Field.Index.ANALYZED));
+
+    // Store the created date to retain referencing
+    Long creation = new Long( item.getCreationUTC());
+    workingDocument.add( new Field( "creator.date", creation.toString(), Field.Store.YES, Field.Index.ANALYZED));
     
     return workingDocument;
   }

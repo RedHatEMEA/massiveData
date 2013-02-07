@@ -29,6 +29,7 @@ public class BasicFileSurfacerReaderTest
       System.out.println( "Read file " + args[0] + " in " + ( loadEnd - loadStart ) + "ms." );
       
       System.out.println( "Item creation UTC: " + testItem.getCreationUTC());
+      System.out.println( "Comparitors: " + testItem.getComparitors());
       
       Map<String,Object> contents = testItem.getContents();
       

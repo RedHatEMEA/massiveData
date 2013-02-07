@@ -22,7 +22,7 @@ public class Item implements Serializable
 
   // Class Properties
   private final Hashtable<String,Object> _contents = new Hashtable<>();
-  private final List<String> _comparitors = new Vector<String>(); 
+  private List<String> _comparitors = new Vector<String>(); 
   private long _creationUTC = 0;
   
   /**
@@ -49,7 +49,7 @@ public class Item implements Serializable
    */
   public Item( Hashtable<String,Object> contents, List<String> comparitors )
   {
-	this(contents, comparitors, System.currentTimeMillis());
+	  this(contents, comparitors, System.currentTimeMillis());
   }
   
   /**
@@ -72,6 +72,16 @@ public class Item implements Serializable
   public Item( Item original )
   {
 	  this(original.getContents(), original.getComparitors(), original.getCreationUTC());
+  }
+  
+  /**
+   * Comparitors mutator. This allows dependency injection of the comparitors list
+   * when re-building an item from storage.
+   * @param comparitors comparitor list to store
+   */
+  public void setComparitors( List<String> comparitors )
+  {
+    _comparitors = comparitors;
   }
   
   /**

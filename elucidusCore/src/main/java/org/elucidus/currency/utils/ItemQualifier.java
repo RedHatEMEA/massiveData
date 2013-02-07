@@ -40,6 +40,9 @@ public class ItemQualifier
   {
     Item newItem = new Item(item.getCreationUTC());
     
+    // Copy the comparitor list
+    newItem.setComparitors(item.getComparitors());
+    
     // Translate the existing aspects
     Hashtable<String,Object> contents = item.getContents();
     
