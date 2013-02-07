@@ -153,15 +153,12 @@ public class BasicFilePersister implements IPersister
     try
     {
       PrintWriter out = new PrintWriter( new FileOutputStream( filename ) );
-      System.out.println( "Working with file: " + filename );
       
       // Manually map the created date as a separate field
       out.print( "CREATED:::" + Long.toString( item.getCreationUTC()) +"\n" );
       
       // Manually store the comparitors for re-constituting the item
       List<String> comparitors = item.getComparitors();
-      
-      System.out.println( "Comparitors: " + comparitors );
       
       StringBuffer compBuffer = null;
       

@@ -89,7 +89,6 @@ public class BasicFileSurfacer implements ISurfacer
       // Order - read the comparitors and store them in the item shell
       data = fileRead.nextLine();
       
-      System.out.println( "[DEBUG] Read: " + data );
       components = BasicFileSurfacer.quickStrip(data);
       
       String[] comparitors = components[1].split( "[,]");
