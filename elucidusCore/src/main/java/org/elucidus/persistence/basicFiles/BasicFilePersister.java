@@ -3,6 +3,8 @@ package org.elucidus.persistence.basicFiles;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,8 +30,10 @@ public class BasicFilePersister implements IPersister
    */
   public void setLocation(String location) throws PersistenceException
   {
+    if( _targetDirectory != null ) return;
+    
     _targetDirectory = new File( location );
-      
+    
     if( !( _targetDirectory.exists() ) )
     {
       throw new PersistenceException( "No such target directory in BasicFilePersister " + location );
@@ -139,6 +143,7 @@ public class BasicFilePersister implements IPersister
     // If overwrite then remove the file if it exists
     if( overwrite )
     {
+      @SuppressWarnings("unused")
       boolean success = this.removeItem(item);
     }
     else
@@ -211,7 +216,17 @@ public class BasicFilePersister implements IPersister
    */
   public List<Item> persistItems(List<Item> items, boolean overwrite) throws PersistenceException
   {
-    throw new PersistenceException( "Non-supported method for basic file persistence" );
+    ArrayList<Item> failedItems = new ArrayList<Item>();
+    
+    for( Item item : items )
+    {
+      if( !( this.persistItem(item, overwrite)))
+      {
+        failedItems.add(item);
+      }
+    }
+    
+    return failedItems;
   }
 
   @Override
@@ -251,5 +266,70 @@ public class BasicFilePersister implements IPersister
     {
       throw new PersistenceException( "Contains check failed due to " + exc.toString() );
     }
+  }
+
+  @Override
+  public void initialise( String location ) throws PersistenceException
+  {
+    _targetDirectory = new File( location );
+    
+    if( ( _targetDirectory.exists() ) && !( _targetDirectory.isDirectory() ) )
+    {
+      throw new PersistenceException( "Target directory provided exists and is not a directory : " + location );
+    }
+
+    if( !( _targetDirectory.exists() ) )
+    {
+      // Attempt to create the directory
+      _targetDirectory.mkdir();
+      
+      if( !( _targetDirectory.exists()))
+      {
+        throw new PersistenceException( "Unable to create directory at location " + location );
+      }
+    }
+  }
+
+  @Override
+  public void finalise() throws PersistenceException
+  {
+  }
+
+  @Override
+  public Map<String, String> report() throws PersistenceException
+  {
+    HashMap<String,String> report = new HashMap<String,String>();
+    
+    try
+    {
+      // First - initialisation check
+      if( _targetDirectory == null )
+      {
+        throw new PersistenceException( "Unable to generate report, persister not initialised.");
+      }
+    
+      if( !( _targetDirectory.exists()))
+      {
+        throw new PersistenceException( "Target directory (" + _targetDirectory.getCanonicalPath() + ") does not exist.");
+      }
+    
+      if( !( _targetDirectory.isDirectory()))
+      {
+        throw new PersistenceException( "Target directory (" + _targetDirectory.getCanonicalPath() + ") is not a directory.");
+      }
+    
+      // 1: File count
+      File[] files = _targetDirectory.listFiles();
+      
+      report.put( "fileCount", Integer.toString(files.length));
+      report.put( "lastModified", Long.toString(_targetDirectory.lastModified()));
+      
+      return report;
+    }
+    catch( Exception exc )
+    {
+      throw new PersistenceException( "Generate report failed due to " + exc.toString() );
+    }
+    
   }
 }

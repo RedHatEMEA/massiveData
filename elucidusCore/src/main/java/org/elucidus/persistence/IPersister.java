@@ -1,6 +1,7 @@
 package org.elucidus.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import org.elucidus.currency.Item;
 import org.elucidus.exceptions.PersistenceException;
@@ -18,4 +19,7 @@ public interface IPersister
   public boolean persistItem( Item item, boolean overwrite ) throws PersistenceException;
   public List<Item> persistItems( List<Item> items, boolean overwrite ) throws PersistenceException;
   public boolean contains( Item item ) throws PersistenceException;
+  public void initialise( String location ) throws PersistenceException;
+  public void finalise() throws PersistenceException;
+  public Map<String,String> report() throws PersistenceException;
 }
