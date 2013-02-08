@@ -52,6 +52,23 @@ public class ItemConverter
       }
     }
     
+    // Store the comparitor list unindexed
+    StringBuffer concatenatedComparitors = null;
+    
+    for( String comparitorContent : item.getComparitors() )
+    {
+      if( concatenatedComparitors == null )
+      {
+        concatenatedComparitors = new StringBuffer( comparitorContent );
+      }
+      else
+      {
+        concatenatedComparitors.append( "," + comparitorContent );
+      }
+    }
+    
+    workingDocument.add( new Field( "comparitorList", concatenatedComparitors.toString(), Field.Store.YES, Field.Index.NO));
+    
     // Build a uniqueness indicator by combining all the values of the comparitor fields into a single field
     StringBuffer comparitor = new StringBuffer();
     
