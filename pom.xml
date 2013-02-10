@@ -14,7 +14,7 @@
     <module>elucidusGeneratorEmail</module>
     <module>elucidusGeneratorPdf</module>
     <module>elucidusBaseGenerator</module>
-    <module>elucidusSurfacerMongoDb</module>
+    <module>elucidusPersisterMongoDb</module>
     <module>elucidusSpoolerDirectory</module>
   </modules>
 
