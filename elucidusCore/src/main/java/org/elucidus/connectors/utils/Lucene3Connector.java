@@ -22,7 +22,7 @@ import org.elucidus.persistence.lucene.ItemConverter;
  * This is a helper class that adds connector methods for using LUCENE3.x indexes.
  * @author Ian Lawson <a href="mailto:ian.lawson@redhat.com">ian.lawson@redhat.com</a>
  */
-public class LUCENE3Handle
+public class Lucene3Connector
 {
   private IndexReader _indexerDeletionHandle = null;
   private IndexWriter _indexerHandle = null;

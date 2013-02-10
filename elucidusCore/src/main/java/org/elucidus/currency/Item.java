@@ -2,10 +2,8 @@ package org.elucidus.currency;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Set;
 import java.util.Vector;
 
 import org.elucidus.exceptions.ContentNotUniqueException;

@@ -167,7 +167,6 @@ public class BasicTitledCSVGenerator implements IGenerator
    * @param separator separator to use for splitting
    * @return array of components after intelligent splitting
    */
-  @SuppressWarnings("unused")
   private static String[] split( String original, String separator )
   {
     int position = 0;

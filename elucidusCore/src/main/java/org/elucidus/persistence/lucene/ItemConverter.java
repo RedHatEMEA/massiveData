@@ -52,6 +52,34 @@ public class ItemConverter
       }
     }
     
+    // Store the comparitor list unindexed
+    StringBuffer concatenatedComparitors = null;
+    
+    for( String comparitorContent : item.getComparitors() )
+    {
+      if( concatenatedComparitors == null )
+      {
+        concatenatedComparitors = new StringBuffer( comparitorContent );
+      }
+      else
+      {
+        concatenatedComparitors.append( "," + comparitorContent );
+      }
+    }
+    
+    workingDocument.add( new Field( "comparitorList", concatenatedComparitors.toString(), Field.Store.YES, Field.Index.NO));
+    
+    // Build a uniqueness indicator by combining all the values of the comparitor fields into a single field
+    StringBuffer comparitor = new StringBuffer();
+    
+    for( String comparitorKey : item.getComparitors() )
+    {
+      String comparitorValue = (String)contents.get( comparitorKey );
+      comparitor.append( comparitorValue );
+    }
+    
+    workingDocument.add( new Field( "comparitor", comparitor.toString(), Field.Store.YES, Field.Index.ANALYZED));
+    
     String convertedDate = Long.toString(System.currentTimeMillis());
     
     workingDocument.add( new Field( "converter.date", convertedDate, Field.Store.YES, Field.Index.ANALYZED));

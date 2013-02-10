@@ -2,7 +2,7 @@ package org.elucidus.tests;
 
 import java.util.Map;
 
-import org.elucidus.connectors.utils.LUCENE3Handle;
+import org.elucidus.connectors.utils.Lucene3Connector;
 
 /**
  * Simple test for flexing the LUCENE3 connector methods.
@@ -32,7 +32,7 @@ public class LUCENE3ConnectorTest
   
   public LUCENE3ConnectorTest( String action, String location, String fileLocation )
   {
-    LUCENE3Handle handle = new LUCENE3Handle();
+    Lucene3Connector handle = new Lucene3Connector();
     
     // Simple tests first
     // If delete attempt to delete then exit
@@ -65,8 +65,10 @@ public class LUCENE3ConnectorTest
         {
           System.out.println( "  " + key + ":" + report.get(key));
         }
-      } catch (Exception e) {
-        e.printStackTrace();
+      }
+      catch( Exception exc )
+      {
+        System.out.println( "Test failed due to " + exc.toString());
       }
     }
     
@@ -85,5 +87,8 @@ public class LUCENE3ConnectorTest
         exc.printStackTrace();
       }
     }
+    
+    // Now convert and store the items into the Persister
+    
   }
 }
