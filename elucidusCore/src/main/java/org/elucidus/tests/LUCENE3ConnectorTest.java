@@ -65,8 +65,6 @@ public class LUCENE3ConnectorTest
         {
           System.out.println( "  " + key + ":" + report.get(key));
         }
-      } catch (Exception e) {
-        e.printStackTrace();
       }
       catch( Exception exc )
       {
