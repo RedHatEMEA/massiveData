@@ -150,16 +150,10 @@ public class Item implements Serializable
    * Add object to item mutator.
    * @param name name of the object to add
    * @param value the object to add
-   * @throws ContentNotUniqueException if the name is not unique within the object
    */
-  public void addObject( String name, Object value ) throws ContentNotUniqueException
-  {
-    if( _contents.containsKey(name))
-    {
-      throw new ContentNotUniqueException( "Duplicate field addition attempt with name " + name );
-    }
-    
-    _contents.put(name, value);
+  public void addObject( String name, Object value )
+  {    
+    _contents.put(name, value); 
   }
   
   /**
@@ -232,4 +226,16 @@ public class Item implements Serializable
     
     return true;
   }
+  
+  @Override
+	public String toString() {
+		Hashtable<String, Object> aspects = this.getContents();
+	  	String ret = "Item with " + aspects.size() + " aspects\n";
+		
+		for (String aspectKey : aspects.keySet()) {
+			ret += "Aspect: " + aspectKey + " = " + aspects.get(aspectKey) + "\n";
+		} 
+		 
+		return ret;
+	}
 }

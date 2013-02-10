@@ -15,6 +15,7 @@
     <module>elucidusGeneratorPdf</module>
     <module>elucidusBaseGenerator</module>
     <module>elucidusSurfacerMongoDb</module>
+    <module>elucidusSpoolerDirectory</module>
   </modules>
 
 <build>

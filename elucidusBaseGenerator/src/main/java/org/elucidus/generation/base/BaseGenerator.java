@@ -12,9 +12,10 @@ import java.util.List;
 import org.elucidus.currency.Item;
 import org.elucidus.exceptions.GenerationException;
 import org.elucidus.generation.IGenerator; 
+import org.elucidus.generation.StandardAspects;
     
 public abstract class BaseGenerator implements IGenerator {
-	@Override
+	@Override 
 	public List<Item> generate(File inputFile) throws GenerationException {
 		try {
 			return generate(new FileInputStream(inputFile));
@@ -53,5 +54,11 @@ public abstract class BaseGenerator implements IGenerator {
 		} else { 
 			return value.toString().trim(); 
 		}
-	}
+	} 
+	
+	public void addFileRelatedAspects(Item i, File f) {
+		i.addString(StandardAspects.FILE_FILENAME, f.getAbsolutePath());
+		i.addObject(StandardAspects.FILE_MODIFIED_UTC, f.lastModified());
+		i.addObject(StandardAspects.FILE_SIZE_BYTES, f.length()); 
+	}  
 }

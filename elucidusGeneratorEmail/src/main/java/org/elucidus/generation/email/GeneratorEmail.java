@@ -19,7 +19,7 @@ import org.elucidus.generation.base.BaseGenerator;
 public class GeneratorEmail extends BaseGenerator {
 	private List<Item> attrs = new Vector<Item>();
 
-	@Override
+	@Override 
 	public List<Item> generate(InputStream inputStream) throws GenerationException {
 		attrs.clear();
 		
