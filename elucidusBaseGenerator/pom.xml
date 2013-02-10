@@ -3,6 +3,13 @@
   <groupId>elucidusBaseGenerator</groupId>
   <artifactId>elucidusBaseGenerator</artifactId>
   <version>0.0.4-SNAPSHOT</version>
+
+  <parent>
+  	<groupId>elucidus</groupId>
+  	<artifactId>elucidus</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  </parent>
+
   <dependencies>
   	<dependency>
   		<groupId>junit</groupId>
