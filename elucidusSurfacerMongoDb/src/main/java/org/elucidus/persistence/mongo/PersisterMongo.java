@@ -3,6 +3,7 @@ package org.elucidus.persistence.mongo;
 import java.net.UnknownHostException;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.elucidus.currency.Item;
 import org.elucidus.currency.utils.ItemNameTools;
@@ -24,7 +25,7 @@ public class PersisterMongo implements IPersister {
 	private static final transient Logger LOG = LoggerFactory.getLogger(PersisterMongo.class); 
 	private MongoConnectionManager mcm;
 	private String collection; 
-	private String database;
+	private String database; 
 	 
 	public void setLocation(String location) throws PersistenceException {
 		try {
@@ -109,4 +110,12 @@ public class PersisterMongo implements IPersister {
 			db.getCollection(this.collection).drop(); 
 		} 
 	}
+
+
+  	public Map<String, String> report() throws PersistenceException {
+		return null;
+	} 
+ 
+	public void finalise() {}
+	public void initialise(String offeringOfCake) throws PersistenceException {}
 }

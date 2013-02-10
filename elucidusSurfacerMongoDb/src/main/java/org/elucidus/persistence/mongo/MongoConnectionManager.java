@@ -13,7 +13,7 @@ import com.mongodb.MongoClient;
 public class MongoConnectionManager extends MongoClient {
 	public MongoConnectionManager(String host) throws UnknownHostException {
 		super(host);     
-	} 
+	}  
 	 
 	public void dumpDbToStdOut(String database) {
 		DB db = this.getDB(database);
