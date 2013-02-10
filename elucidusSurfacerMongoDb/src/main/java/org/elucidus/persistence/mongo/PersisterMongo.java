@@ -1,6 +1,7 @@
 package org.elucidus.persistence.mongo;
 
 import java.net.UnknownHostException;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.elucidus.currency.Item;
@@ -8,17 +9,21 @@ import org.elucidus.currency.utils.ItemNameTools;
 import org.elucidus.exceptions.ItemNameFormatException;
 import org.elucidus.exceptions.PersistenceException;
 import org.elucidus.persistence.IPersister;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
+import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.QueryBuilder;
 import com.mongodb.WriteResult;
-
+ 
 public class PersisterMongo implements IPersister {
+	private static final transient Logger LOG = LoggerFactory.getLogger(PersisterMongo.class); 
 	private MongoConnectionManager mcm;
-	private String collection;
+	private String collection; 
 	private String database;
 	 
 	public void setLocation(String location) throws PersistenceException {
@@ -76,23 +81,26 @@ public class PersisterMongo implements IPersister {
 		QueryBuilder qb = QueryBuilder.start();
 		
 		mcm.dumpDbToStdOut(this.database);
+		
+		Hashtable<String, Object> obs = item.getContents();
  
-		qb = qb.elemMatch(mcm.itemToMongoObject(item)); 
+		for (String aspectKey : obs.keySet()) { 
+			qb.put(aspectKey).exists(obs.get(aspectKey));
+		}    
+		     
+		DB db = this.mcm.getDB(this.database);
+		DBCollection col = db.getCollection(this.collection);  
+		DBCursor cur = col.find(qb.get());
 		
-		DBCursor cur = this.mcm.getDB(this.database).getCollection(this.collection).find(qb.get());
+		System.out.println("Contains mongo query: " + qb.get().toString());
+		System.out.println("cur size: " + cur.size());
 		
-		while (cur.hasNext()) {
-			System.out.println(cur.curr());
-		}
-		
-		mcm.dumpDbToStdOut(this.database);
-		
-		if (cur.length() == item.getContents().size()) {
-			return true;
+		if (cur.size() != 1) {
+			return false; 			
 		} else {
-			return false;
-		}
-	}
+			return true;
+		} 
+	} 
 
 	public void clearAll() { 
 		DB db = this.mcm.getDB(this.database);
@@ -101,5 +109,4 @@ public class PersisterMongo implements IPersister {
 			db.getCollection(this.collection).drop(); 
 		} 
 	}
-
 }

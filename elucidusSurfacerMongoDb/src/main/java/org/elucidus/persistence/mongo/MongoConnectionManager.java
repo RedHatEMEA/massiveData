@@ -28,8 +28,10 @@ public class MongoConnectionManager extends MongoClient {
 			System.out.println("Collection:" + collectionName);
 			
 			for (DBObject s : db.getCollection(collectionName).find()) {
+				System.out.println("Object");
+				
 				for (String key : s.keySet()) {
-					System.out.println("Object: " + key + " = " + s.get(key));
+					System.out.println("Object key: " + key + " = " + s.get(key));
 				}
 			}
 		}

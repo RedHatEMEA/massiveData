@@ -52,8 +52,8 @@ public class TestConnectivity {
 		persister.setParameter("collection", "testingCollection");
 		persister.setLocation("localhost"); 
 		persister.clearAll();
-		persister.persistItem(item, false);
-		
+		persister.persistItem(item, false);  
+		    
 		Assert.assertTrue(persister.contains(item));
  		
 		persister.removeItem(item);

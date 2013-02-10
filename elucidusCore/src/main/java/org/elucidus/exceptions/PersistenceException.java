@@ -28,4 +28,7 @@ public class PersistenceException extends Exception
     super( message );
   }
 
+  public PersistenceException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }
