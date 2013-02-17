@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import org.elucidus.exceptions.ContentNotUniqueException;
 import org.elucidus.exceptions.InvalidObjectTypeException;
+import org.elucidus.exceptions.NoSuchAspectException;
 
 /**
  * This class represents a single lowest common denominator Item for an Elucidus system.
@@ -224,6 +225,80 @@ public class Item implements Serializable
     
     return true;
   }
+  
+  /**
+   * Helper method for setting the comparitor hash using a string.
+   * @param hash value to store as comparitor hash
+   */
+  public void setComparitorHash( String hash )
+  {
+    _contents.put(StandardAspects.HASH_COMPARITOR, hash );
+  }
+  
+  /**
+   * Helper method for setting the comparitor hash using a byte array.
+   * @param bytes byte array to store as comparitor hash
+   */
+  public void setComparitorHash( byte[] bytes )
+  {
+    _contents.put(StandardAspects.HASH_COMPARITOR, new String(bytes));
+  }
+
+  /**
+   * Accessor method for string version of comparitor hash value.
+   * @return the string value stored for the comparitor hash
+   * @throws NoSuchAspectException if the comparitor hash aspect does not exist for this item
+   */
+  public String getComparitorHashString() throws NoSuchAspectException
+  {
+    if( !_contents.contains(StandardAspects.HASH_COMPARITOR))
+    {
+      throw new NoSuchAspectException( "Item does not contain hash comperitor aspect.");
+    }
+    
+    return (String)_contents.get(StandardAspects.HASH_COMPARITOR);
+  }
+
+  /**
+   * Accessor method for byte version of comparitor hash value.
+   * @return the byte array containing the comparitor hash
+   * @throws NoSuchAspectException if the comparitor hash aspect does not exist for this item
+   */
+  public byte[] getComparitorHashBytes() throws NoSuchAspectException
+  {
+    if( !_contents.contains(StandardAspects.HASH_COMPARITOR))
+    {
+      throw new NoSuchAspectException( "Item does not contain hash comperitor aspect.");
+    }
+    
+    return ((String)_contents.get(StandardAspects.HASH_COMPARITOR)).getBytes();    
+  }
+  
+  /**
+   * Helper mutator for the Hash class name. This is a class conforming to the IHash interface that was used to
+   * construct the hash value stored in the HASH_COMPARITOR aspect.
+   * @param className fully qualified class name of the hashing algorithm implementation
+   */
+  public void setHashClass( String className )
+  {
+    _contents.put( StandardAspects.HASH_CLASS, className );
+  }
+
+  /**
+   * Helper accessor for the Hash Class aspect.
+   * @return the fully qualified class name for the Hashing algorithm class
+   * @throws NoSuchAspectException if the HASH_CLASS aspect does not exist for this item
+   */
+  public String getHashClass() throws NoSuchAspectException
+  {
+    if( !_contents.contains(StandardAspects.HASH_CLASS))
+    {
+      throw new NoSuchAspectException( "Item does not contain hash comperitor aspect.");
+    }
+    
+    return (String)_contents.get(StandardAspects.HASH_CLASS);        
+  }
+  
   
   @Override
 	public String toString() {

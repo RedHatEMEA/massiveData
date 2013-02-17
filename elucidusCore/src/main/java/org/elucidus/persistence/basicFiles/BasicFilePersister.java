@@ -55,12 +55,13 @@ public class BasicFilePersister implements IPersister
   @Override
   public void setParameter(String name, String value) throws PersistenceException
   {
-    if( !( name.equalsIgnoreCase( "uuid" ) ) )
+    switch( name.toLowerCase() )
     {
-      throw new PersistenceException( "Unknown parameter for BasicFilePersister " + name );
+      case "uuid" : _uuid = value;
+        break;
+        
+      default: throw new PersistenceException( "Unknown parameter " + name );
     }
-    
-    _uuid = value;
   }
 
   /**

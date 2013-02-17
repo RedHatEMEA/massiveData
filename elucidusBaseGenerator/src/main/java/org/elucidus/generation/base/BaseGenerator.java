@@ -10,9 +10,9 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 import org.elucidus.currency.Item;
+import org.elucidus.currency.StandardAspects;
 import org.elucidus.exceptions.GenerationException;
 import org.elucidus.generation.IGenerator; 
-import org.elucidus.generation.StandardAspects;
     
 public abstract class BaseGenerator implements IGenerator {
 	@Override 

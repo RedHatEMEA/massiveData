@@ -3,9 +3,6 @@ package org.elucidus.generation;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Vector;
-
-import org.elucidus.exceptions.GenerationException;
 
 /**
  * This is the static factory for generating Persisters using the interface.
@@ -37,7 +34,7 @@ public class GeneratorFactory
    * @throws InstantiationException if the instantiation fails
    * @throws IllegalAccessException if the class is unreachable within the ClassLoader
    */
-  public static  <T extends IGenerator> T getGenerator( String className ) throws ClassCastException,ClassNotFoundException, InstantiationException, IllegalAccessException
+  public static <T extends IGenerator> T getGenerator( String className ) throws ClassCastException,ClassNotFoundException, InstantiationException, IllegalAccessException
   {
     return (T)Class.forName(className).newInstance();
   }

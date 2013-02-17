@@ -1,6 +1,8 @@
 package org.elucidus.persistence.lucene;
 
 import java.util.Hashtable;
+import java.util.List;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.elucidus.currency.Item;
@@ -84,6 +86,27 @@ public class ItemConverter
     
     workingDocument.add( new Field( "converter.date", convertedDate, Field.Store.YES, Field.Index.ANALYZED));
 
+    // Finally add the composite field for item level searching
+    List<String> tokens = item.getContents(false);
+    StringBuffer tokenOutput = null;
+    
+    for( String token : tokens )
+    {
+      if( tokenOutput == null )
+      {
+        tokenOutput = new StringBuffer( token );
+      }
+      else
+      {
+        tokenOutput.append( " " + token );
+      }
+    }
+    
+    if( tokenOutput != null )
+    {
+      workingDocument.add( new Field( "luceneSearchContents", tokenOutput.toString(), Field.Store.YES, Field.Index.ANALYZED ));
+    }
+      
     // Store the created date to retain referencing
     Long creation = new Long( item.getCreationUTC());
     workingDocument.add( new Field( "creator.date", creation.toString(), Field.Store.YES, Field.Index.ANALYZED));
