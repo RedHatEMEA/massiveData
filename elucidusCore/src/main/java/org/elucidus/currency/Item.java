@@ -93,6 +93,60 @@ public class Item implements Serializable
   }
   
   /**
+   * Add comparitor mutator. Note that *ALL* comparitors are substring matches
+   * of the last component of an Aspect name, i.e. "myData.myId.(extras).comparitor".
+   * This is to allow comparisons across items in different data caches.
+   * @param comparitor comparitor to add
+   */
+  public void addComparitor( String comparitor )
+  {
+    if( !( _comparitors.contains(comparitor)))
+    {
+      _comparitors.add(comparitor);
+    }
+  }
+  
+  /**
+   * Remove comparitor mutator.
+   * @param comparitor comparitor to remove from comparitors
+   */
+  public void removeComparitor( String comparitor )
+  {
+    if( _comparitors.contains(comparitor))
+    {
+      _comparitors.remove(comparitor);
+    }
+  }
+  
+  /**
+   * Aspect matching method for use in comparitor checking. *NOTE* this
+   * uses endnames (blah.blah.blah.ENDNAME) for comparison and does an
+   * object type and an object content check.
+   * @param targetEndname endname to compare
+   * @param value value to compare
+   * @return true if the item contains an Aspect with the endname and the same object value
+   */
+  public boolean aspectMatches( String targetEndname, Object value )
+  {
+    for( String key : _contents.keySet())
+    {
+      if( key.endsWith("." + targetEndname))
+      {
+        Object contents = _contents.get(key);
+        
+        if( value.getClass() != contents.getClass())
+        {
+          return false;
+        }
+        
+        return value.getClass() == contents.getClass();
+      }
+    }
+    
+    return false;
+  }
+  
+  /**
    * Comparitors accessor.
    * @return the comparitors for this item
    */
@@ -200,6 +254,9 @@ public class Item implements Serializable
    * Equivalency method. This method returns true *if* the comparitor fields
    * are identical *and* the contents of the comparitor fields in this item match
    * the contents of the comparitor fields in the item to compare.
+   * 
+   * *NOTE* all comparitors work on the endname and not the full field name. This is
+   * to allow items with different IDs and cache names to be compared.
    * @param comparisonItem an item to compare against this one
    * @return true if the contents indicated by the comparitors are equal
    */
@@ -217,7 +274,7 @@ public class Item implements Serializable
     // Now check the contents of the comparitor fields against the comparisonItem
     for( String comparitor : _comparitors )
     {
-      if( !( _contents.get(comparitor).equals(comparisonItem.getContents().get(comparitor))))
+      if( !( this.aspectMatches(comparitor, comparisonItem.getContents().get(comparitor))))
       {
         return false;
       }
@@ -253,7 +310,7 @@ public class Item implements Serializable
   {
     if( !_contents.contains(StandardAspects.HASH_COMPARITOR))
     {
-      throw new NoSuchAspectException( "Item does not contain hash comperitor aspect.");
+      throw new NoSuchAspectException( "Item does not contain hash comparitor aspect.");
     }
     
     return (String)_contents.get(StandardAspects.HASH_COMPARITOR);
@@ -299,13 +356,46 @@ public class Item implements Serializable
     return (String)_contents.get(StandardAspects.HASH_CLASS);        
   }
   
+  /**
+   * Aspect endname check. This method searches the keys of the contents for 
+   * instances of the endname and returns true when it finds one.
+   * @param endName endname to check for
+   * @return true if the item has an Aspect that ends with the endname, false if it does not
+   */
+  public boolean hasAspect( String endName )
+  {
+    for( String key : _contents.keySet())
+    {
+      if( key.endsWith("." + endName))
+      {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  /**
+   * Validity check on Item. All items *must* have the mandatory fields that
+   * define an Item in the system. This method checks the existence of these fields.
+   * @return true if the Item contains the fields that are mandatory.
+   */
+  public boolean isValidItem()
+  {
+    return this.hasAspect( StandardAspects.SOURCE ) &&
+           this.hasAspect( StandardAspects.GENERATOR )  &&
+           this.hasAspect( StandardAspects.CREATED );
+  }
+  
   
   @Override
-	public String toString() {
+	public String toString() 
+  {
 		Hashtable<String, Object> aspects = this.getContents();
 	  	String ret = "Item with " + aspects.size() + " aspects\n";
 		
-		for (String aspectKey : aspects.keySet()) {
+		for (String aspectKey : aspects.keySet()) 
+		{
 			ret += "Aspect: " + aspectKey + " = " + aspects.get(aspectKey) + "\n";
 		} 
 		 

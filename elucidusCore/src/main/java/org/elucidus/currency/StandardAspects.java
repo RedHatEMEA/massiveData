@@ -2,8 +2,9 @@ package org.elucidus.currency;
 
 public class StandardAspects 
 {
-  public static final String SOURCE = "elucidus_source";
-  public static final String GENERATOR = "elucidus_generator";
+  public static final String SOURCE = "druid_source";
+  public static final String GENERATOR = "druid_generator";
+  public static final String CREATED = "druid_created";
   
   public static final String HASH_COMPARITOR = "comparitor_hash";
   public static final String HASH_CLASS = "hash_class";

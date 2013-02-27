@@ -40,7 +40,7 @@ public class TitledCSVDemo
       
       // Convert the stream to Items
       long generateStart = System.currentTimeMillis();
-      List<Item> items = generator.generate( new File( inputFile ));
+      List<Item> items = generator.generate( new File( inputFile ), inputFile );
       long generateEnd = System.currentTimeMillis();
       
       // Inefficiently persist each item

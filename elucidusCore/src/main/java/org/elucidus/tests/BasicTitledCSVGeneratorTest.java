@@ -33,7 +33,7 @@ public class BasicTitledCSVGeneratorTest
       
       // Now try the generator
       long startTime = System.currentTimeMillis();
-      List<Item> items = generator.generate(new File( targetFile ));
+      List<Item> items = generator.generate(new File( targetFile ), targetFile );
       long endTime = System.currentTimeMillis();
       
       System.out.println( "Generated " + items.size() + " items in " + ( endTime - startTime ) + "ms.");

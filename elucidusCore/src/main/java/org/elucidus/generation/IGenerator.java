@@ -15,9 +15,9 @@ import org.elucidus.exceptions.GenerationException;
  */
 public interface IGenerator
 {
-  public List<Item> generate( InputStream inputStream ) throws GenerationException;
-  public List<Item> generate( File inputFile ) throws GenerationException;
-  public List<Item> generate( String inputString ) throws GenerationException;
-  public List<Item> generate( URL url ) throws GenerationException;
+  public List<Item> generate( InputStream inputStream, String source ) throws GenerationException;
+  public List<Item> generate( File inputFile, String source ) throws GenerationException;
+  public List<Item> generate( String inputString, String source ) throws GenerationException;
+  public List<Item> generate( URL url, String source ) throws GenerationException;
   public void setParameter( String name, String value ) throws GenerationException;
 }

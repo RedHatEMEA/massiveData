@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.elucidus.currency.Item;
 import org.elucidus.exceptions.GenerationException;
+import org.elucidus.generation.Generator;
 import org.elucidus.generation.IGenerator;
 
 /**
@@ -20,7 +21,7 @@ import org.elucidus.generation.IGenerator;
  * @author Ian Lawson <a href="mailto:ian.lawson@redhat.com">ian.lawson@redhat.com</a>
  *
  */
-public class BasicTitledCSVGenerator implements IGenerator
+public class BasicTitledCSVGenerator extends Generator implements IGenerator
 {
   private String _separator = ",";
 
@@ -32,7 +33,7 @@ public class BasicTitledCSVGenerator implements IGenerator
    * @return list of discovered items from the inputstream
    * @throws GenerationException if generation fails
    */
-  public List<Item> generate(InputStream inputStream) throws GenerationException
+  public List<Item> generate(InputStream inputStream, String source ) throws GenerationException
   {
     StringBuffer fileContents = new StringBuffer();
     
@@ -45,7 +46,7 @@ public class BasicTitledCSVGenerator implements IGenerator
         fileContents.append((char)content);
       }
       
-      return this.generate( fileContents.toString());
+      return this.generate( fileContents.toString(), source );
     }
     catch( Exception exc )
     {
@@ -62,7 +63,7 @@ public class BasicTitledCSVGenerator implements IGenerator
    * @return list of constructed Items from the file
    * @throws GenerationException if it fails to generate Items
    */
-  public List<Item> generate(File inputFile) throws GenerationException
+  public List<Item> generate(File inputFile, String source ) throws GenerationException
   {
     try
     {
@@ -74,7 +75,7 @@ public class BasicTitledCSVGenerator implements IGenerator
       if( inputFile.isDirectory()) throw new GenerationException ( "Target file is directory " + inputFile.getCanonicalPath() + " in BasicTitledCSVGenerator");
 
       // Otherwise
-      return this.generate( new FileInputStream( inputFile ));      
+      return this.generate( new FileInputStream( inputFile ), source );      
     }
     catch( Exception exc )
     {
@@ -91,7 +92,7 @@ public class BasicTitledCSVGenerator implements IGenerator
    * @return list of constructed Items from the file
    * @throws GenerationException if it fails to generate Items.
    */
-  public List<Item> generate(String inputString) throws GenerationException
+  public List<Item> generate(String inputString, String source ) throws GenerationException
   {
     ArrayList<Item> workingItems = new ArrayList<Item>();
     
@@ -128,6 +129,7 @@ public class BasicTitledCSVGenerator implements IGenerator
         
         // Comparitor is maximal
         item.setComparitors(headingsList);
+        item = this.setMandatoryAspects(item, source);
         
         workingItems.add(item);
       }
@@ -137,7 +139,7 @@ public class BasicTitledCSVGenerator implements IGenerator
   }
 
   @Override
-  public List<Item> generate(URL url) throws GenerationException
+  public List<Item> generate(URL url, String source ) throws GenerationException
   {
     // Not currently supported
     return null;
