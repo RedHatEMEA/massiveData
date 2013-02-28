@@ -3,7 +3,7 @@ package org.elucidus.persistence.mongo;
 import java.net.UnknownHostException;
 import java.util.Hashtable;
 
-import org.elucidus.currency.Item;
+import org.druid.currency.Item;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;

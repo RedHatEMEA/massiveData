@@ -16,17 +16,17 @@ import org.elucidus.generation.IGenerator;
     
 public abstract class BaseGenerator implements IGenerator {
 	@Override 
-	public List<Item> generate(File inputFile) throws GenerationException {
+	public List<Item> generate(File inputFile, String source) throws GenerationException {
 		try {
-			return generate(new FileInputStream(inputFile));
+			return generate(new FileInputStream(inputFile), source);
 		} catch (FileNotFoundException e) {
 			throw new GenerationException(e); 
 		}	
 	};
 
 	@Override
-	public List<Item> generate(String inputString) throws GenerationException {
-		return generate(new ByteArrayInputStream(inputString.getBytes(Charset.defaultCharset())));
+	public List<Item> generate(String inputString, String source ) throws GenerationException {
+		return generate(new ByteArrayInputStream(inputString.getBytes(Charset.defaultCharset())), source );
 	}
 	  
 	/* 
@@ -34,10 +34,10 @@ public abstract class BaseGenerator implements IGenerator {
 	 * of the URL protocol, exceptions cannot be caught and handled in a sensible way.  
 	 */
 	@Override
-	public List<Item> generate(URL url) throws GenerationException {
+	public List<Item> generate(URL url, String source) throws GenerationException {
 		
 		try {
-			return generate(url.openStream());
+			return generate(url.openStream(), source);
 		} catch (IOException e) {
 			throw new GenerationException(e); 
 		} 

@@ -5,11 +5,11 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import org.elucidus.currency.Item;
-import org.elucidus.currency.utils.ItemNameTools;
-import org.elucidus.exceptions.ItemNameFormatException;
-import org.elucidus.exceptions.PersistenceException;
-import org.elucidus.persistence.IPersister;
+import org.druid.currency.Item;
+import org.druid.currency.utils.ItemNameTools;
+import org.druid.exceptions.ItemNameFormatException;
+import org.druid.exceptions.PersistenceException;
+import org.druid.persistence.IPersister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

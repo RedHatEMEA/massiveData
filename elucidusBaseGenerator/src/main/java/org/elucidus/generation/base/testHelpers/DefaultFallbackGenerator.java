@@ -12,16 +12,17 @@ import org.elucidus.exceptions.GenerationException;
 import org.elucidus.generation.IGenerator;
 import org.elucidus.generation.base.BaseGenerator;
 
-public class DefaultFallbackGenerator extends BaseGenerator {
+public class DefaultFallbackGenerator extends BaseGenerator,Generator {
 	private Vector<Item> aspects = new Vector<Item>(); 
 
 	@Override
-	public List<Item> generate(InputStream inputStream)
+	public List<Item> generate(InputStream inputStream, String source )
 			throws GenerationException {
 
 		Item item = new Item();
 		item.addString("uuid", ItemNameTools.generateUUID(false));
-		   
+    
+		
 		aspects.add(item); 
 		 
 		return aspects;

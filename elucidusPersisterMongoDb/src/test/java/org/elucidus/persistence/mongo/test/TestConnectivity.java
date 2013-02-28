@@ -10,8 +10,8 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-import org.elucidus.currency.Item;
-import org.elucidus.currency.utils.ItemNameTools;
+import org.druid.currency.Item;
+import org.druid.currency.utils.ItemNameTools;
 import org.elucidus.persistence.mongo.MongoConnectionManager;
 import org.elucidus.persistence.mongo.PersisterMongo;
 import org.junit.Test;
