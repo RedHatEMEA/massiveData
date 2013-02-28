@@ -6,7 +6,7 @@ import org.druid.surfacing.ISurfacer;
 import org.druid.surfacing.SurfacerFactory;
 
 /**
- * This class provides tests for flexing the data dictionary aspects of a BasicFilePersisted Elucidus cache.
+ * This class provides tests for flexing the data dictionary aspects of a BasicFilePersisted DRUID cache.
  * @author Ian Lawson <a href="ian.lawson@redhat.com">ian.lawson@redhat.com</a>
  *
  */

@@ -308,7 +308,7 @@ public class Lucene3Connector
 
   /**
    * Single Item add method.
-   * @param item the Elucidus item to add to the LUCENE3 index
+   * @param item the DRUID item to add to the LUCENE3 index
    * @param location the physical location of the index
    * @param overwrite whether or not to overwrite the item (TODO)
    * @throws ConnectorException if the operation of adding the item fails

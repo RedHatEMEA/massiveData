@@ -7,7 +7,7 @@ import org.druid.surfacing.basicFiles.BasicFileSurfacer;
 
 /**
  * Simple test to flex the private methods within the BasicFileSurfacer that convert the proprietary
- * file format for an Item into an Elucidus Item.
+ * file format for an Item into a DRUID Item.
  * @author Ian Lawson <a href="mailto:ian.lawson@redhat.com">ian.lawson@redhat.com</a>
  */
 public class BasicFileSurfacerReaderTest

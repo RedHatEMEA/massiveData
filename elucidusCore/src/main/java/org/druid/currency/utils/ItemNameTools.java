@@ -21,9 +21,9 @@ public class ItemNameTools
   public static final long NO_UTC = -1l;
   
   /**
-   * Helper method for extracting the UUID from an Elucidus field name. The UUID
+   * Helper method for extracting the UUID from a DRUID field name. The UUID
    * is *always* the second component, i.e. cacheName.UUID.fieldname(.s)
-   * @param name Elucidus field name to process
+   * @param name DRUID field name to process
    * @return the extracted UUID
    * @throws ItemNameFormatException if the name is the incorrect format
    */
@@ -49,7 +49,7 @@ public class ItemNameTools
 
   /**
    * Helper method for extracting the embedded UTC in time-stamped UUID. This format of 
-   * UUID for use in temporal stamped Elucidus objects uses UUID_UTC as a format.
+   * UUID for use in temporal stamped DRUID objects uses UUID_UTC as a format.
    * @param UUID UUID to extract UTC from
    * @return UTC long value or {@link org.druid.currency.utils.ItemNameTools.NO_UTC NO_UTC} if no UTC is embedded
    * @throws ItemNameFormatException
@@ -91,10 +91,10 @@ public class ItemNameTools
   }
   
   /**
-   * Helper method to get the cache name from an Elucidus item.
-   * @param name Elucidus Item name to process
+   * Helper method to get the cache name from a DRUID item.
+   * @param name DRUID Item name to process
    * @return the cache name if present
-   * @throws ItemNameFormatException if the Item Name does not conform to the Elucidus naming structure
+   * @throws ItemNameFormatException if the Item Name does not conform to the DRUID naming structure
    */
   public static String getCacheName( String name ) throws ItemNameFormatException
   {
@@ -117,11 +117,11 @@ public class ItemNameTools
   }
   
   /**
-   * This helper method returns all field components of an Elucidus Item Name. This entails
+   * This helper method returns all field components of a DRUID Item Name. This entails
    * all components *except* the cache name and UUID.
    * @param name name to process
    * @return all field components except the cache name and UUID
-   * @throws ItemNameFormatException if the Item Name does not conform to the Elucidus naming conventions.
+   * @throws ItemNameFormatException if the Item Name does not conform to the DRUID naming conventions.
    */
   public static String getFieldComponents( String name ) throws ItemNameFormatException
   {

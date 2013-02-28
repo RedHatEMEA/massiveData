@@ -11,7 +11,7 @@ import org.druid.exceptions.InvalidObjectTypeException;
 import org.druid.exceptions.NoSuchAspectException;
 
 /**
- * This class represents a single lowest common denominator Item for an Elucidus system.
+ * This class represents a single lowest common denominator Item for a DRUID system.
  * @author Ian Lawson (<a href="mailto:ian.lawson@redhat.com">ian.lawson@redhat.com</a>).
  */
 public class Item implements Serializable
