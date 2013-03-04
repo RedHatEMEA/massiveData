@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Vector;
@@ -14,6 +15,7 @@ import org.druid.generation.AspectEnrichment;
 import org.druid.generation.Generator;
 import org.druid.generation.IGenerator;
 import org.druid.generation.utils.FileValidation;
+import org.druid.utils.TextUtils;
 
 public class BasicTextGenerator extends Generator implements IGenerator
 {
@@ -38,7 +40,7 @@ public class BasicTextGenerator extends Generator implements IGenerator
     {
       exc.printStackTrace();
 
-      throw new GenerationException( "Failed to generate from InputStream in BasicTextGenerator due to " + exc.getMessage());      
+      throw new GenerationException( exc );      
     }
   }
 
@@ -69,6 +71,7 @@ public class BasicTextGenerator extends Generator implements IGenerator
     
     // TODO
     // Add use of utils to remove punctuation and tidy textual content
+    inputString = TextUtils.clean(inputString);
     
     String[] tokens = inputString.split("[ ]");
     item.addString( "text_token_count", Integer.toString(tokens.length));
@@ -107,8 +110,24 @@ public class BasicTextGenerator extends Generator implements IGenerator
   @Override
   public List<Item> generate(URL url, String source ) throws GenerationException
   {
-    // TODO Auto-generated method stub
-    return null;
+    try
+    {
+      HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+      
+      List<Item> generated = this.generate( connection.getInputStream(), source );
+      List<Item> enriched = new Vector<Item>();
+      
+      for( Item item : generated )
+      {
+        enriched.add(AspectEnrichment.urlEnrichment(item, connection));
+      }
+      
+      return enriched;
+    }
+    catch( Exception exc )
+    {
+      throw new GenerationException( exc );
+    }
   }
 
   @Override
